@@ -1,6 +1,7 @@
 # FIPS 140-2 Hardening Cookbook
 
-This cookbook automates the tasks needed to put a system into FIPS 140-2 mode.
+This cookbook automates the tasks needed to put a system into
+FIPS 140-2 mode. Currently it only supports EL7 and Windows.
 
 ## License & Authors
 
