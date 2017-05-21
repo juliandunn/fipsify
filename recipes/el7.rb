@@ -43,9 +43,3 @@ execute 'grub-mkconfig' do
   action :nothing
   notifies :request_reboot, 'reboot[fips-mode-reboot]'
 end
-
-reboot 'fips-mode-reboot' do
-  reason 'Reboot into new FIPS-enabled kernel'
-  action :nothing
-  not_if { node['fips']['kernel']['enabled'] } # Never reboot even if signalled if already in FIPS mode
-end
