@@ -17,8 +17,8 @@
 
 registry_key 'HKLM\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy' do
     values [{
-    :name => 'Enabled'
-    :type => :dword
+    :name => 'Enabled',
+    :type => :dword,
     :data => '1'
   }]
   action :create
