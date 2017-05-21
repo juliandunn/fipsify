@@ -19,7 +19,7 @@ package 'dracut-fips-aesni' do
 end
 
 execute 'regenerate-initramfs' do
-  command 'dracut -v -f'
+  command 'dracut -f'
   action :nothing
 end
 
