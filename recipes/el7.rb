@@ -1,8 +1,21 @@
 #
 # Cookbook:: fipsify
 # Recipe:: el7
+# Author:: Julian Dunn (<jdunn@chef.io>)
 #
 # Copyright:: Copyright (C) 2017 Chef Software Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 package 'prelink' do
   action :remove
@@ -33,10 +46,18 @@ add_to_list 'enable-fips-in-kernel' do
   notifies :run, 'execute[grub-mkconfig]'
 end
 
-# TODO: Need to handle situation where /boot is on a separate partition.
-# Can do this by testing for existence of node['filesystem']['by_mountpoint']['/boot']
-# and if this is true, need to append_if_no_line the UUID of this partition to 
-# GRUB_CMDLINE_LINUX as above
+add_to_list 'add-boot-param' do
+  path '/etc/default/grub'
+  pattern 'GRUB_CMDLINE_LINUX="'
+  delim [" "]
+  ends_with '"'
+  # lazy eval, otherwise if there's no /boot partition, resource
+  # compilation will fail - so only eval this if guard is true
+  entry lazy { "boot=UUID=#{node['filesystem']['by_mountpoint']['/boot']['uuid']}" }
+  action :edit
+  notifies :run, 'execute[grub-mkconfig]'
+  only_if { node['filesystem']['by_mountpoint']['/boot'] }
+end
 
 execute 'grub-mkconfig' do
   command 'grub2-mkconfig -o /boot/grub2/grub.cfg'

@@ -24,7 +24,7 @@ platforms:
 suites:
   - name: el7
     run_list:
-      - recipe[fipsify::el7]
+      - recipe[fipsify]
     verifier:
       inspec_tests:
         - test/smoke/linux
