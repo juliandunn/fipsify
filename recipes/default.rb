@@ -20,13 +20,13 @@
 case node['platform_family']
 when 'rhel'
   case node['platform_version']
-    when /^6/
-      include_recipe '::el6'
-    when /^7/
-      include_recipe '::el7'
-    else
-      raise 'Unsupported operating system version'
-    end
+  when /^6/
+    include_recipe '::el6'
+  when /^7/
+    include_recipe '::el7'
+  else
+    raise 'Unsupported operating system version'
+  end
 when 'windows'
   include_recipe '::windows'
 else

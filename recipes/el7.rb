@@ -39,7 +39,7 @@ end
 add_to_list 'enable-fips-in-kernel' do
   path '/etc/default/grub'
   pattern 'GRUB_CMDLINE_LINUX="'
-  delim [" "]
+  delim [' ']
   ends_with '"'
   entry 'fips=1'
   action :edit
@@ -49,7 +49,7 @@ end
 add_to_list 'add-boot-param' do
   path '/etc/default/grub'
   pattern 'GRUB_CMDLINE_LINUX="'
-  delim [" "]
+  delim [' ']
   ends_with '"'
   # lazy eval, otherwise if there's no /boot partition, resource
   # compilation will fail - so only eval this if guard is true
